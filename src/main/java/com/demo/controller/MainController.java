@@ -12,4 +12,9 @@ public class MainController {
 		model.addAttribute("message", "Welcome to Docker container!");
 		return "index";
 	}
+	
+	@RequestMapping("/welcome")
+	public String showMessage() {
+		return "This is a welcome message!!!";
+	}
 }
