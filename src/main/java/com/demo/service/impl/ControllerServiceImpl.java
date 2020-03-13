@@ -10,10 +10,7 @@ public class ControllerServiceImpl implements ControllerService {
 
     @Override
     public void compile(Solution solution) {
-        // TODO Auto-generated method stub
-        
+        System.out.println(solution.toString());
     }
-
-    
 
 }
