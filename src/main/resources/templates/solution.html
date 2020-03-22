@@ -10,20 +10,20 @@
     <div class="container">
         <h1>Welcome to our demo judge</h1>
         <h2>Problem Solution</h2>
-        <form th:action="@{/solution}" class="form" method="POST">
+        <form th:action="@{/solution}" class="form" method="POST" th:object="${solution}">
             <div class="form-group">
                 <label for="problem"></label>
-                <input type="text" id="problem" disabled value="Problem A">
+                <input type="text" id="problem" th:field="*{solutionName}" value="Problem A">
             </div>
 
             <div class="form-group">
-                <label for="" class="solution"></label>
-                <textarea name="solution" id="solution" cols="60" rows="20"></textarea>
+                <label for="solution" class="solution"></label>
+                <textarea name="solutionSourceCode" th:field="*{solutionSourceCode}" id="solution" cols="60" rows="20"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="" class="language"></label>
-                <select name="language" id="language">
+                <select th:field="*{language}" name="language" id="language">
                     <option value="java">Java</option>
                     <option value="cpp">C++</option>
                     <option value="c">C</option>
