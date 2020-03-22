@@ -1,8 +1,12 @@
 package com.demo.controller;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,7 +33,10 @@ public class MainController {
     }
     
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
-    public String compile(final Solution solution){
+    public String compile(@ModelAttribute final Solution solution, final BindingResult result){
+        if (result.hasErrors()) {
+            return "solution";
+        }
         controllerService.compile(solution);
         return "compile";
     }
