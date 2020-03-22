@@ -11,3 +11,11 @@ env:
     secure: 5ba58708-9c35-4bc4-b289-76c7143777d1
     secure: rashedulislam8741@yahoo.com
     secure: Rashed.08
+    
+deploy:
+  provider: heroku
+  api-key:
+    secure:  $HEROKU_API_KEY
+  app: basic-docker-with-springboot
+  on:
+    repo: rashed-08/BasicDockerWithSpringBoot
