@@ -17,3 +17,5 @@ deploy:
   api-key:
     secure:  $HEROKU_API_KEY
   app: basic-docker-with-springboot
+  on:
+    repo: rashed-08/BasicDockerWithSpringBoot
