@@ -13,8 +13,14 @@ public class ControllerServiceImpl implements ControllerService {
     private CodeCompileImpl codeCompile;
 
     @Override
-    public void compile(Solution solution) {
-        codeCompile.compileCode(solution);
+    public int compile(Solution solution) {
+        int successfullyExit = codeCompile.compileCode(solution);
+        return successfullyExit;
+    }
+
+    @Override 
+    public void execute() {
+        codeCompile.executeCode();
     }
 
 }

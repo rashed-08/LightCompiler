@@ -1,11 +1,9 @@
 package com.demo.service;
 
-import java.io.File;
-
 import com.demo.model.Solution;
 
 public interface ControllerService {
     
-    public void compile(Solution solution);
-
+    public int compile(Solution solution);
+    public void execute();
 }
