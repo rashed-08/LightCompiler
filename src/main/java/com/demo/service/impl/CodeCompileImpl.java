@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,11 @@ import com.demo.service.CodeCompile;
 @Service
 public class CodeCompileImpl implements CodeCompile {
 
-    private String code = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/filename.c";
-    private String executableFile = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/filename";
+    String executableFile = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/filename";      
     
+    private String fileName = "";
     private String STDIN = "";
-    private String errorTag = "";
+    private String errorTag = ""; 
     
     @Autowired
     private TempFileImpl tempFile;
@@ -39,25 +40,24 @@ public class CodeCompileImpl implements CodeCompile {
 
     @Override
     public int compileCode(Solution solution) {
-        String fileName = "";
+        
         @SuppressWarnings("unused")
         String compilationResult = "";
         int exitValue = 1;
         
         if (solution.getLanguage().equals("c")) {
-            fileName = "filename.c";
+            fileName += "filename.c";
             createFile(fileName);
             writeSourceCode(solution.getSolutionSourceCode());
         }
 
+        String code = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/" + fileName;
+        
         try {
-
             String[] command = { "gcc", code, "-o", executableFile };
 
             ProcessBuilder processBuilder = new ProcessBuilder();
-
             processBuilder.command(command);
-
             Process compileProcess = processBuilder.start();
 
             BufferedReader compileError = new BufferedReader(new InputStreamReader(compileProcess.getErrorStream()));
@@ -67,10 +67,8 @@ public class CodeCompileImpl implements CodeCompile {
             }
             compilationResult += showError + "\n";
             
-            STDIN = getSTDIN(solution);
-            
+            STDIN = getSTDIN(solution);            
             exitValue = compileProcess.waitFor();
-            System.out.println("Exit value: " + exitValue);
             
             if (exitValue == 1) {
                 errorTag += "error";
@@ -84,10 +82,10 @@ public class CodeCompileImpl implements CodeCompile {
     }
 
     @Override
-    public String executeCode() {
+    public ArrayList<String> executeCode() {
         
+        ArrayList<String> outputList = new ArrayList<>();       
         String line = "";
-
         String[] command = { executableFile };
 
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -97,31 +95,28 @@ public class CodeCompileImpl implements CodeCompile {
             Process process = processBuilder.start();
             
             InputStream inputStream = process.getInputStream();
-
             InputStreamReader inputStramReader = new InputStreamReader(inputStream);
- 
             BufferedReader bufferedReader = new BufferedReader(inputStramReader);
             
             OutputStream stdin = process.getOutputStream();
             stdin.write(STDIN.getBytes());
             stdin.flush();
             try {
-                int exitValue = process.waitFor();
-                System.out.println("Exit value: " + exitValue);
-              //  process.destroy();
+                process.waitFor();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 while ((line = bufferedReader.readLine()) != null) {
-                    System.out.println(line);
+                    outputList.add(line);
                 }
+                process.destroy();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } 
         deleteFile();
-        return line;
+        return outputList;
     }
 
     @Override

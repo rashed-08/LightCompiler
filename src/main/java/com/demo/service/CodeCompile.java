@@ -1,5 +1,7 @@
 package com.demo.service;
 
+import java.util.ArrayList;
+
 import com.demo.model.Solution;
 
 public interface CodeCompile {
@@ -8,6 +10,6 @@ public interface CodeCompile {
     void writeSourceCode(String sourceCode);
     int compileCode(final Solution solution);
     String getSTDIN(Solution solution);
-    String executeCode();
+    ArrayList<String> executeCode();
     void deleteFile();
 }
