@@ -1,5 +1,7 @@
 package com.demo.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,16 @@ public class ControllerServiceImpl implements ControllerService {
     private CodeCompileImpl codeCompile;
 
     @Override
-    public void compile(Solution solution) {
-        codeCompile.compileCode(solution);
+    public int compile(Solution solution) {
+        int successfullyExit = codeCompile.compileCode(solution);
+        return successfullyExit;
+    }
+
+    @Override 
+    public ArrayList<String> execute() {
+        ArrayList<String> outputList = new ArrayList<>();
+        outputList = codeCompile.executeCode();
+        return outputList;
     }
 
 }

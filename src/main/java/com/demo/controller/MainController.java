@@ -1,6 +1,6 @@
 package com.demo.controller;
 
-import java.io.File;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,10 +34,15 @@ public class MainController {
     
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
     public String compile(@ModelAttribute final Solution solution, final BindingResult result){
+        ArrayList<String> outputList = new ArrayList<>();
         if (result.hasErrors()) {
             return "solution";
         }
-        controllerService.compile(solution);
-        return "compile";
+        int successfullyExited = controllerService.compile(solution);
+        if (successfullyExited == 0) {
+            outputList = controllerService.execute();
+            System.out.println(outputList);
+        }
+        return "solution";
     }
 }

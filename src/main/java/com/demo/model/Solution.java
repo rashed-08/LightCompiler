@@ -2,26 +2,18 @@ package com.demo.model;
 
 public class Solution {
 
-    private String solutionName;
     private String solutionSourceCode;
+    private String stdin;
     private String language;
 
     public Solution() {
-        // TODO Auto-generated constructor stub
+        
     }
 
-    public Solution(String solutionName, String solutionSourceCode, String language) {
-        this.solutionName = solutionName;
+    public Solution(String solutionSourceCode, String stdin, String language) {
         this.solutionSourceCode = solutionSourceCode;
+        this.stdin = stdin;
         this.language = language;
-    }
-
-    public String getSolutionName() {
-        return solutionName;
-    }
-
-    public void setSolutionName(String solutionName) {
-        this.solutionName = solutionName;
     }
 
     public String getSolutionSourceCode() {
@@ -40,9 +32,17 @@ public class Solution {
         this.language = language;
     }
 
+    public String getStdin() {
+        return stdin;
+    }
+
+    public void setStdin(String stdin) {
+        this.stdin = stdin;
+    }
+
     @Override
     public String toString() {
-        return "Solution [solutionName=" + solutionName + ", solutionSourceCode=" + solutionSourceCode + ", language="
+        return "Solution [solutionName=solutionSourceCode=" + solutionSourceCode + ", stdin=" + stdin + ", language="
                 + language + "]";
     }
 
