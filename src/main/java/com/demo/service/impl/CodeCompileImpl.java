@@ -16,7 +16,10 @@ import com.demo.service.CodeCompile;
 @Service
 public class CodeCompileImpl implements CodeCompile {
 
-    String executableFile = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/filename";      
+    String[] command = new String[4];
+    
+    private String executableFile = "";     
+    private String sourceCodeFile = "";
     
     private String fileName = "";
     private String STDIN = "";
@@ -29,33 +32,35 @@ public class CodeCompileImpl implements CodeCompile {
     private WriteToFileImpl writeFile;
 
     @Override
-    public void createFile(String filename) {
-        tempFile.createFile(filename);
+    public void createFile(String directory,String filename) {
+        tempFile.createFile(directory, filename);
     }
 
     @Override
     public void writeSourceCode(String sourceCode) {
-        writeFile.writeSourceCode(sourceCode);
+        String directory = getDirectory();
+        writeFile.writeSourceCode(directory, fileName, sourceCode);
     }
 
     @Override
     public int compileCode(Solution solution) {
         
+        String directory = getDirectory();
+        
         @SuppressWarnings("unused")
         String compilationResult = "";
         int exitValue = 1;
         
+        String sourceCode = solution.getSolutionSourceCode();
         if (solution.getLanguage().equals("c")) {
-            fileName += "filename.c";
-            createFile(fileName);
-            writeSourceCode(solution.getSolutionSourceCode());
+            prepare("c",sourceCode,directory);
+        } else if (solution.getLanguage().equals("cpp")) {
+            prepare("cpp",sourceCode,directory);
+        } else if (solution.getLanguage().equals("java")) {
+            prepare("java",sourceCode,directory);
         }
-
-        String code = "/home/romantic-coder/Documents/workspace-spring-tool-suite-4-4.5.1.RELEASE/demo/temp/" + fileName;
         
         try {
-            String[] command = { "gcc", code, "-o", executableFile };
-
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command(command);
             Process compileProcess = processBuilder.start();
@@ -72,7 +77,7 @@ public class CodeCompileImpl implements CodeCompile {
             
             if (exitValue == 1) {
                 errorTag += "error";
-                tempFile.deleteFile(errorTag);
+                deleteFile(errorTag);
             }
 
         } catch (Exception e) {
@@ -98,10 +103,10 @@ public class CodeCompileImpl implements CodeCompile {
             InputStreamReader inputStramReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStramReader);
             
-            OutputStream stdin = process.getOutputStream();
-            stdin.write(STDIN.getBytes());
-            stdin.flush();
             try {
+                OutputStream stdin = process.getOutputStream();
+                stdin.write(STDIN.getBytes());
+                stdin.flush();
                 process.waitFor();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -115,13 +120,14 @@ public class CodeCompileImpl implements CodeCompile {
         } catch (IOException e) {
             e.printStackTrace();
         } 
-        deleteFile();
+        deleteFile(errorTag);
         return outputList;
     }
 
     @Override
-    public void deleteFile() {
-        tempFile.deleteFile(errorTag);
+    public void deleteFile(String errorTag) {
+        String directory = getDirectory();
+        tempFile.deleteFile(directory, fileName, errorTag);
     }
 
     @Override
@@ -129,6 +135,47 @@ public class CodeCompileImpl implements CodeCompile {
         STDIN = solution.getStdin();
         STDIN += "\n";
         return STDIN;
+    }
+    
+    @Override
+    public String getDirectory() {
+        String directory = tempFile.getDirectory();
+        return directory;
+    }
+
+    @Override
+    public void prepare(String languageName, String sourceCode, String directory) {
+        if (languageName.equals("c")) {            
+            fileName = "filename." + languageName;
+            createFile(directory, fileName);
+            writeSourceCode(sourceCode);
+            executableFile = directory + "filename"; 
+            sourceCodeFile = directory + fileName;
+            command[0] = "gcc";
+            command[1] = sourceCodeFile;
+            command[2] = "-o";
+            command[3] = executableFile;
+        } else if (languageName.equals("cpp")) {
+            fileName = "filename." + languageName;
+            createFile(directory, fileName);
+            writeSourceCode(sourceCode);
+            executableFile = directory + "filename"; 
+            sourceCodeFile = directory + fileName;
+            command[0] = "g++";
+            command[1] = sourceCodeFile;
+            command[2] = "-o";
+            command[3] = executableFile;            
+        } else if (languageName.equals("java")) {
+            fileName = "filename." + languageName;
+            createFile(directory, fileName);
+            writeSourceCode(sourceCode);
+            executableFile = directory + "filename"; 
+            sourceCodeFile = directory + fileName;
+            command[0] = "javac";
+            command[1] = sourceCodeFile;
+            command[2] = "-o";
+            command[3] = executableFile;            
+        }
     }
 
 }

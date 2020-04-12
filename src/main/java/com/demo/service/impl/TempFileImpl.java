@@ -2,6 +2,8 @@ package com.demo.service.impl;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.stereotype.Service;
 
@@ -11,43 +13,48 @@ import com.demo.service.TempFile;
 public class TempFileImpl implements TempFile {
 
     @Override
-    public void createFile(String filename) {
+    public void createFile(String directory, String filename) {
         try {
-            File fileName = new File("temp/filename.c");
+            File fileName = new File(directory + filename);
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @Override
-    public void deleteFile(String errorTag) {
-        
+    public void deleteFile(String directory, String fileName, String errorTag) {
+
         if (errorTag.equals("error")) {
-            File fileNameWithExtension = new File("temp/filename.c");
+            File fileNameWithExtension = new File(directory + fileName);
             if (fileNameWithExtension.delete()) {
-//                System.out.println("File deleted successfully with extension!");
-            } else {
-//                System.out.println("Failed to delete the file!");
-            }
-            
+                
+            } 
+
         } else {
-            File fileNameWithExtension = new File("temp/filename.c");
+            File fileNameWithExtension = new File(directory + fileName);
             if (fileNameWithExtension.delete()) {
-//                System.out.println("File deleted successfully with extension!");
-            } else {
-//                System.out.println("Failed to delete the file!");
-            }
-            
-            File fileName = new File("temp/filename");
-            if (fileName.delete()) {
-//                System.out.println("File deleted successfully!");
-            } else {
-//                System.out.println("Failed to delete the file!");
-            }            
+
+            } 
+
+            File executableFileName = new File(directory + "filename");
+            if (executableFileName.delete()) {
+            } 
         }
     }
 
+    @Override
+    public String getDirectory() {
+        Path homeDirectory = Paths.get(System.getProperty("user.home"));
+        Path subDirectory = Paths.get(homeDirectory.toString(),File.separator + "temp");
+        File createDirectory = new File(subDirectory.toString());
+        File directory = new File(createDirectory.toString());
+        if (!directory.exists()) {
+            if (directory.mkdirs()) {
+            } 
+        }
+        return createDirectory.toString() + "/";
+    }
 }

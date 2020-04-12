@@ -2,6 +2,7 @@ package com.demo.service;
 
 public interface TempFile {
 
-     void createFile(String filename);
-     void deleteFile(String errorTag);
+     String getDirectory();
+     void createFile(String directory, String fileName);
+     void deleteFile(String directory, String fileName, String errorTag);
 }
