@@ -2,9 +2,11 @@ package com.demo.service.impl;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Service;
 
 import com.demo.service.TempFile;
@@ -27,22 +29,13 @@ public class TempFileImpl implements TempFile {
     @Override
     public void deleteFile(String directory, String fileName, String errorTag) {
 
-        if (errorTag.equals("error")) {
-            File fileNameWithExtension = new File(directory + fileName);
-            if (fileNameWithExtension.delete()) {
-                
-            } 
-
-        } else {
-            File fileNameWithExtension = new File(directory + fileName);
-            if (fileNameWithExtension.delete()) {
-
-            } 
-
-            File executableFileName = new File(directory + "filename");
-            if (executableFileName.delete()) {
-            } 
+        try {
+            File cleanFiles = new File(directory);
+            FileUtils.cleanDirectory(cleanFiles);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
     }
 
     @Override
