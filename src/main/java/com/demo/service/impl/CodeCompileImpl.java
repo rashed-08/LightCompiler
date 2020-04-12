@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,13 @@ import com.demo.service.CodeCompile;
 @Service
 public class CodeCompileImpl implements CodeCompile {
 
-    String[] command = new String[4];
+    private String[] command = new String[4];
+    private String[] javaCompiler = new String[2];
     
     private String executableFile = "";     
     private String sourceCodeFile = "";
+    
+    private String language = "";
     
     private String fileName = "";
     private String STDIN = "";
@@ -52,17 +56,26 @@ public class CodeCompileImpl implements CodeCompile {
         int exitValue = 1;
         
         String sourceCode = solution.getSolutionSourceCode();
-        if (solution.getLanguage().equals("c")) {
+        language = solution.getLanguage();
+        
+        if (language.equals("c")) {
             prepare("c",sourceCode,directory);
-        } else if (solution.getLanguage().equals("cpp")) {
+        } else if (language.equals("cpp")) {
             prepare("cpp",sourceCode,directory);
-        } else if (solution.getLanguage().equals("java")) {
+        } else if (language.equals("java")) {
             prepare("java",sourceCode,directory);
+            javaCompiler[0] = "javac";
+            javaCompiler[1] = sourceCodeFile;
         }
         
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command(command);
+            if (language.equals("java")) {
+                processBuilder.command(javaCompiler);
+            } else {
+                processBuilder.command(command);
+            }
+            
             Process compileProcess = processBuilder.start();
 
             BufferedReader compileError = new BufferedReader(new InputStreamReader(compileProcess.getErrorStream()));
@@ -91,11 +104,19 @@ public class CodeCompileImpl implements CodeCompile {
         
         ArrayList<String> outputList = new ArrayList<>();       
         String line = "";
-        String[] command = { executableFile };
-
         ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.command(command);
-
+        if (language.equals("java")) {
+            String[] command = new String[4];
+            command[0] = "java";
+            command[1] = "-cp";
+            command[2] = getDirectory();
+            command[3] = executableFile;
+            processBuilder.command(command);
+        } else {
+            String[] command = { executableFile };
+            processBuilder.command(command);
+        }
+        
         try {
             Process process = processBuilder.start();
             
@@ -107,7 +128,7 @@ public class CodeCompileImpl implements CodeCompile {
                 OutputStream stdin = process.getOutputStream();
                 stdin.write(STDIN.getBytes());
                 stdin.flush();
-                process.waitFor();
+                process.waitFor(4, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
@@ -166,15 +187,11 @@ public class CodeCompileImpl implements CodeCompile {
             command[2] = "-o";
             command[3] = executableFile;            
         } else if (languageName.equals("java")) {
-            fileName = "filename." + languageName;
+            fileName = "Main." + languageName;
             createFile(directory, fileName);
             writeSourceCode(sourceCode);
-            executableFile = directory + "filename"; 
+            executableFile = "Main"; 
             sourceCodeFile = directory + fileName;
-            command[0] = "javac";
-            command[1] = sourceCodeFile;
-            command[2] = "-o";
-            command[3] = executableFile;            
         }
     }
 
