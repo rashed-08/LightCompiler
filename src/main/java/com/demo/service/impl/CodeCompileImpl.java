@@ -128,7 +128,7 @@ public class CodeCompileImpl implements CodeCompile {
                 OutputStream stdin = process.getOutputStream();
                 stdin.write(STDIN.getBytes());
                 stdin.flush();
-                process.waitFor(4, TimeUnit.SECONDS);
+                process.waitFor();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
