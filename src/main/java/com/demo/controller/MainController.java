@@ -18,15 +18,8 @@ public class MainController {
     
     @Autowired
     private ControllerServiceImpl controllerService;
-    
-    @RequestMapping("/")
-    public String showHome(final Model model) {
-        model.addAttribute("title", "Spring Boot with Docker");
-        model.addAttribute("message", "Welcome to Docker container!");
-        return "index";
-    }
 
-    @RequestMapping(value = "/solution")
+    @RequestMapping(value = {"/","/solution"})
     public String showSubmitPage(Model model) {
         model.addAttribute("solution", new Solution());
         return "solution";
@@ -41,7 +34,11 @@ public class MainController {
         int successfullyExited = controllerService.compile(solution);
         if (successfullyExited == 0) {
             outputList = controllerService.execute();
-            System.out.println(outputList);
+            if (!outputList.isEmpty()) {
+                System.out.println(outputList);
+            } else {
+                System.out.println("Time Limit Exeed!");
+            }
         }
         return "solution";
     }
