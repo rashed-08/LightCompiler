@@ -124,11 +124,24 @@ public class CodeCompileImpl implements CodeCompile {
             InputStreamReader inputStramReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStramReader);
             
+            boolean timeout = true;
             try {
                 OutputStream stdin = process.getOutputStream();
                 stdin.write(STDIN.getBytes());
                 stdin.flush();
-                process.waitFor();
+                timeout = process.waitFor(6, TimeUnit.SECONDS);
+                if (!timeout) {
+                    long start = System.currentTimeMillis();
+                    Thread.sleep(6001);
+                    long end = System.currentTimeMillis();
+                    if ((end-start)>=6000) {
+                        Thread.interrupted();
+                        process.destroy();
+                        process.destroyForcibly();
+                        return null;
+                    }
+                }
+                System.out.println("Timeout value: " + timeout);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
@@ -196,3 +209,9 @@ public class CodeCompileImpl implements CodeCompile {
     }
 
 }
+
+
+
+//bufferedReader.close();
+//inputStramReader.close();
+//inputStream.close();
