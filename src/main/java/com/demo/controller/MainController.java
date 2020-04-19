@@ -27,18 +27,13 @@ public class MainController {
     
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
     public String compile(@ModelAttribute final Solution solution, final BindingResult result){
-        ArrayList<String> outputList = new ArrayList<>();
+        ArrayList<String> outputList;
         if (result.hasErrors()) {
             return "solution";
         }
         int successfullyExited = controllerService.compile(solution);
         if (successfullyExited == 0) {
             outputList = controllerService.execute();
-            if (!outputList.isEmpty()) {
-                System.out.println(outputList);
-            } else {
-                System.out.println("Time Limit Exeed!");
-            }
         }
         return "solution";
     }
