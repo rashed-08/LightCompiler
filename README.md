@@ -4,4 +4,4 @@ This is learning purpose project.
 If you want to contribute to this project, you should know about CI (Continious Integration) and Heroku.
 I'm using Travis CI as a CI tool.
 
-https://travis-ci.com/rashed-08/LightCompiler.svg?branch=master
+[![Build Status](https://travis-ci.com/rashed-08/LightCompiler.svg?branch=master)](https://travis-ci.com/rashed-08/LightCompiler)
