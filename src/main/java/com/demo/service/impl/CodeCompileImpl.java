@@ -138,10 +138,8 @@ public class CodeCompileImpl implements CodeCompile {
                         Thread.interrupted();
                         process.destroy();
                         process.destroyForcibly();
-                        return null;
                     }
                 }
-                System.out.println("Timeout value: " + timeout);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {

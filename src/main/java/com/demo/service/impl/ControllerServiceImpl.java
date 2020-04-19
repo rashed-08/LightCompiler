@@ -24,6 +24,11 @@ public class ControllerServiceImpl implements ControllerService {
     public ArrayList<String> execute() {
         ArrayList<String> outputList = new ArrayList<>();
         outputList = codeCompile.executeCode();
+        if (!outputList.isEmpty()) {
+            System.out.println(outputList);
+        } else {
+            System.out.println("Time Limit Exeed!");
+        }
         return outputList;
     }
 
