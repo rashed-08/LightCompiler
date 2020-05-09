@@ -30,7 +30,3 @@ build/
 ### VS Code ###
 .vscode/
 
-
-####travis
-input.txt
-travis.log
