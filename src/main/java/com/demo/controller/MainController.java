@@ -30,6 +30,6 @@ public class MainController {
         if (successfullyExited == 0) {
             outputList = controllerService.execute();
         }
-        return ResponseEntity.ok(outputList);
+        return ResponseEntity.ok().body(outputList);
     }
 }
