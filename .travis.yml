@@ -2,8 +2,6 @@ sudo: required
 language: java
 deploy:
   provider: heroku
-  api-key:
-    secure: abcd
   app: light-compiler
   on:
     repo: rashed-08/LightCompiler
