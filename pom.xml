@@ -12,7 +12,7 @@
 	<artifactId>light-compiler</artifactId>
 	<version>0.0.1-SNAPSHOT</version> 
 	<name>Light Compiler</name>
-	<description>Online Judge</description>
+	<description>Light Compiler. Can run C/C++ and Java Program. Very Lightweight Compiler</description>
 
 	<properties>
 		<java.version>1.8</java.version>
