@@ -24,7 +24,7 @@ public class MainController {
     private ControllerServiceImpl controllerService;
     
     @PostMapping("/submit")
-    public ResponseEntity<List<String>> compile(@RequestBody final Solution solution, final BindingResult result){
+    public ResponseEntity<List<String>> compile(@RequestBody final Solution solution){
         List<String> outputList = new ArrayList<>();
         int successfullyExited = controllerService.compile(solution);
         if (successfullyExited == 0) {
