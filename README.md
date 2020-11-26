@@ -1,4 +1,4 @@
-# Light Compiler [![Build Status](https://travis-ci.com/rashed-08/LightCompiler.svg?branch=master)](https://travis-ci.com/rashed-08/LightCompiler)\
+# Light Compiler [![Build Status](https://travis-ci.com/rashed-08/LightCompiler.svg?branch=master)](https://travis-ci.com/rashed-08/LightCompiler)
 This is very basic compiler inspired by [Ideone](https://ideone.com/) \
 Now supported language: **C/C++**, **Java**
 
