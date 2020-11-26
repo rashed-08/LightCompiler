@@ -1,9 +1,22 @@
 sudo: required
 language: java
+services:
+  - docker
+
+before_script:
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin   #login to dockerhub
+  - curl https://cli-assets.heroku.com/install.sh | sh  #install heroku
+  - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com  #login to registry.heroku.com
+
+script:
+  - docker build -t rashed08/light-compiler-backend:v3 .
+  - docker tag rashed08/light-compiler-backend:v3 registry.heroku.com/$HEROKU_APP/web
+
 deploy:
-  provider: heroku
-  api_key:
-    secure: B271wiZ+oTJyFZNGs6WN9eYWUS9il+pCx9Nol65f/Bd20lgkRjsJxAJNSySupM2WY7IulSJ/B73JUuimsUkES92jz1IZ4soCtKFOZX3/b9ftppyuUEgVKMqvjODo5q4kzMN2Uy6YY9zTkFV++NWBg76xH7DAV5BZqm/hPnodXOHk1fkdkwwBXdCluBw/aoTNrGqF8tlXA/876CUGeHzqnQFE7RnMIIAAbUeB5i3uAed8dq6CVOEQlQV3n7kq2yaK19dkLmEAONIP7rNOpPddKt5getacJ3/I54U6tY2tbWFlwBFG7DsQOuyWGrOmBU0oYUyJbsXpLRhFVsyWlqtUNnt4pgtJE7q6nirkoIzp5eU73EnEYADAOTMyMjmJ5ldqiX+iioMacOTNZcxlrEm4xQNcL5nJqkrAMMFpjEct49pZURUyKK8DPXbJica4xFXkusbF8H7mOveAK107vz3GVWN9ZhGZKm2+MOifEn44uiHqv06ZknijHGneCHN5ojfT1IRBU54uIOXepQeBBoI99qc4663cV8YyJw9SUuSoTP+d6cmqqAxcks8H/XGU2m7b/H2y2kDGUXoFQ3mrqkrEKveEkko4DS/8Xygkr3oDnAGI+na2nR4O3xPBPNqYDhNCZx9nUb1QQlp5WimXGYZf3QbzxQUmGLTfdvvqEdw42Ro=
-  app: light-compiler
+  provider: script
+  script:
+    docker push rashed08/light-compiler-backend:v3;
+    docker push registry.heroku.com/$HEROKU_APP/web;
+    heroku container:release web --app $HEROKU_APP
   on:
-    repo: rashed-08/LightCompiler
+    branch: feat/complete-compiler
