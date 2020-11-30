@@ -9,7 +9,7 @@ Now supported language: **C/C++**, **Java**
 **Step-4:** ``cd LightCompiler`` \
 **Step-5:** **Go to `src/main/resources/application.properties` and change `prod` to `dev`** \
 **Step-6:** ```docker build -t rashed08/light-compiler .``` \
-**Step-7:** `docker run -p 8080:8080 rashed08/light-compiler` \
+**Step-7:** `docker run -p 8080:8080 rashed08/light-compiler` 
 
 # Technologies:
   - **Java**
