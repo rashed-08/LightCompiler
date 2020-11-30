@@ -7,8 +7,9 @@ Now supported language: **C/C++**, **Java**
 **Step-2:** Install docker for your desktop environment \
 **Step-3:** ``git clone https://github.com/rashed-08/LightCompiler.git`` \
 **Step-4:** ``cd LightCompiler`` \
-**Step-5:** ```docker build -t rashed08/light-compiler .``` \
-**Step-6:** `docker run -p 8080:8080 rashed08/light-compiler` \
+**Step-5:** **Go to `src/main/resources/application.properties` and change `prod` to `dev`** \
+**Step-6:** ```docker build -t rashed08/light-compiler .``` \
+**Step-7:** `docker run -p 8080:8080 rashed08/light-compiler` \
 
 # Technologies:
   - **Java**
@@ -20,7 +21,7 @@ Now supported language: **C/C++**, **Java**
 
 # How to run 
   - Goto **Postman**
-  - Hit `https://light-compiler-backend.herokuapp.com/api/v1/submit` and request type **POST**
+  - Hit `https://light-compiler-backend.herokuapp.com/api/v1/submit` or `http://localhost:8080/api/v1/submit` and request type **POST**
   - Write any program in supported language.
   - Convert json format. [Here](https://onlinetexttools.com/json-stringify-text)
   - Should provide these field - `solutionSourceCode` `stdin` `language`
