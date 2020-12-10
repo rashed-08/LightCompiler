@@ -1,21 +1,22 @@
+sudo: required
 language: java
 services:
   - docker
 
 before_script:
-  - login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD   #login to dockerhub
+  - sudo login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD   #login to dockerhub
   - curl https://cli-assets.heroku.com/install.sh | sh  #install heroku
-  - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com  #login to registry.heroku.com
+  - sudo docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com  #login to registry.heroku.com
 
 script:
-  - docker build -t rashed08/light-compiler-backend:v3 .
-  - docker tag rashed08/light-compiler-backend:v3 registry.heroku.com/$HEROKU_APP/web
+  - sudo docker build -t rashed08/light-compiler-backend:v3 .
+  - sudo docker tag rashed08/light-compiler-backend:v3 registry.heroku.com/$HEROKU_APP/web
 
 deploy:
   provider: script
   script:
-    docker push rashed08/light-compiler-backend:v3;
-    docker push registry.heroku.com/$HEROKU_APP/web;
-    heroku container:release web --app $HEROKU_APP
+    sudo docker push rashed08/light-compiler-backend:v3;
+    sudo docker push registry.heroku.com/$HEROKU_APP/web;
+    sudo heroku container:release web --app $HEROKU_APP
   on:
     branch: master
