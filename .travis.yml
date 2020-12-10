@@ -1,10 +1,9 @@
-sudo: required
 language: java
 services:
   - docker
 
 before_script:
-  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin   #login to dockerhub
+  - login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD   #login to dockerhub
   - curl https://cli-assets.heroku.com/install.sh | sh  #install heroku
   - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com  #login to registry.heroku.com
 
