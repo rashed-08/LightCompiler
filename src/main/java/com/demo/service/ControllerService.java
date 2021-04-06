@@ -8,4 +8,5 @@ public interface ControllerService {
     
     public int compile(Solution solution);
     public ArrayList<String> execute();
+    public int judge(Solution solution);
 }

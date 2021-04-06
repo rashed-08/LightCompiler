@@ -32,4 +32,9 @@ public class ControllerServiceImpl implements ControllerService {
         return outputList;
     }
 
+    @Override
+    public int judge(Solution solution) {
+        return 0;
+    }
+
 }

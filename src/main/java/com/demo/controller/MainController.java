@@ -32,4 +32,11 @@ public class MainController {
         }
         return ResponseEntity.ok().body(outputList);
     }
+
+    @PostMapping("/judge")
+    public ResponseEntity<Integer> judge(@RequestBody final  Solution solution) {
+        int response = controllerService.judge(solution);
+       // System.out.println("The judge value: " + response);
+        return null;
+    }
 }
