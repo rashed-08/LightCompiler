@@ -20,7 +20,7 @@ public class CodeCompileImpl implements CodeCompile {
     private String[] command = new String[4];
     private String[] javaCompiler = new String[2];
     
-    private String executableFile = "";     
+    private String executableFile = "";
     private String sourceCodeFile = "";
     
     private String language = "";
@@ -55,8 +55,8 @@ public class CodeCompileImpl implements CodeCompile {
         String compilationResult = "";
         int exitValue = 1;
         
-        String sourceCode = solution.getSolutionSourceCode();
-        language = solution.getLanguage();
+        String sourceCode = getSourceCode(solution);
+        language = getLanguage(solution);
         
         if (language.equals("c")) {
             prepare("c",sourceCode,directory);
@@ -85,7 +85,7 @@ public class CodeCompileImpl implements CodeCompile {
             }
             compilationResult += showError + "\n";
             
-            STDIN = getSTDIN(solution);            
+            STDIN = getSTDIN(solution);
             exitValue = compileProcess.waitFor();
             
             if (exitValue == 1) {
@@ -102,7 +102,7 @@ public class CodeCompileImpl implements CodeCompile {
     @Override
     public ArrayList<String> executeCode() {
         
-        ArrayList<String> outputList = new ArrayList<>();       
+        ArrayList<String> outputList = new ArrayList<>();
         String line = "";
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (language.equals("java")) {
@@ -168,11 +168,27 @@ public class CodeCompileImpl implements CodeCompile {
         STDIN += "\n";
         return STDIN;
     }
-    
+
+    @Override
+    public String getLanguage(Solution solution) {
+        String language = solution.getLanguage();
+        return language;
+    }
+
+    @Override
+    public String getSourceCode(Solution solution) {
+        String solutionSourceCode = solution.getSolutionSourceCode();
+        return solutionSourceCode;
+    }
+
     @Override
     public String getDirectory() {
         String directory = tempFile.getDirectory();
         return directory;
+    }
+
+    public String getExecutableFile() {
+        return executableFile;
     }
 
     @Override
@@ -196,7 +212,7 @@ public class CodeCompileImpl implements CodeCompile {
             command[0] = "g++";
             command[1] = sourceCodeFile;
             command[2] = "-o";
-            command[3] = executableFile;            
+            command[3] = executableFile;
         } else if (languageName.equals("java")) {
             fileName = "Main." + languageName;
             createFile(directory, fileName);
