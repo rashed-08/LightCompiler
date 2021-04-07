@@ -12,6 +12,8 @@ public interface CodeCompile {
     void prepare(String languageName, String sourceCode, String directory);
     int compileCode(final Solution solution);
     String getSTDIN(Solution solution);
+    String getLanguage(Solution solution);
+    String getSourceCode(Solution solution);
     ArrayList<String> executeCode();
     void deleteFile(String errorTag);
 }
