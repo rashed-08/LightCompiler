@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import com.demo.service.prepare.CPPPrepareExecutable;
+import com.demo.service.prepare.CPrepareExecutable;
+import com.demo.service.prepare.PrepareExecutableFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ public class CodeCompileImpl implements CodeCompile {
 
     private String[] command = new String[4];
     private String[] javaCompiler = new String[2];
-    
+    private PrepareExecutableFile prepareExecutableFile;
     private String executableFile = "";
     private String sourceCodeFile = "";
     
@@ -59,13 +62,22 @@ public class CodeCompileImpl implements CodeCompile {
         language = getLanguage(solution);
         
         if (language.equals("c")) {
-            prepare("c",sourceCode,directory);
+//            prepare("c",sourceCode,directory);
+            prepareExecutableFile = new PrepareExecutableFile();
+            prepareExecutableFile.setPrepareExecutable(new CPrepareExecutable());
+            command = prepareExecutableFile.prepare(sourceCode, directory);
         } else if (language.equals("cpp")) {
-            prepare("cpp",sourceCode,directory);
+//            prepare("cpp",sourceCode,directory);
+            prepareExecutableFile = new PrepareExecutableFile();
+            prepareExecutableFile.setPrepareExecutable(new CPPPrepareExecutable());
+            command = prepareExecutableFile.prepare(sourceCode, directory);
         } else if (language.equals("java")) {
-            prepare("java",sourceCode,directory);
+//            prepare("java",sourceCode,directory);
+            prepareExecutableFile = new PrepareExecutableFile();
+            prepareExecutableFile.setPrepareExecutable(new CPPPrepareExecutable());
+            command = prepareExecutableFile.prepare(sourceCode, directory);
             javaCompiler[0] = "javac";
-            javaCompiler[1] = sourceCodeFile;
+            javaCompiler[1] = command[1];
         }
         
         try {
@@ -193,7 +205,7 @@ public class CodeCompileImpl implements CodeCompile {
 
     @Override
     public void prepare(String languageName, String sourceCode, String directory) {
-        if (languageName.equals("c")) {            
+        /*if (languageName.equals("c")) {
             fileName = "filename." + languageName;
             createFile(directory, fileName);
             writeSourceCode(sourceCode);
@@ -219,7 +231,7 @@ public class CodeCompileImpl implements CodeCompile {
             writeSourceCode(sourceCode);
             executableFile = "Main"; 
             sourceCodeFile = directory + fileName;
-        }
+        }*/
     }
 
 }
