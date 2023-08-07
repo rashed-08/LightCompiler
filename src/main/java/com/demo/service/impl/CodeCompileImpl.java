@@ -20,11 +20,8 @@ import com.demo.service.CodeCompile;
 @Service
 public class CodeCompileImpl implements CodeCompile {
 
-    private String[] command = new String[4];
-    private String[] javaCompiler = new String[2];
     private PrepareExecutableFile prepareExecutableFile;
     private String executableFile = "";
-    private String sourceCodeFile = "";
     
     private String language = "";
     
@@ -35,42 +32,33 @@ public class CodeCompileImpl implements CodeCompile {
     @Autowired
     private TempFileImpl tempFile;
 
-    @Autowired
-    private WriteToFileImpl writeFile;
-
-    @Override
-    public void createFile(String directory,String filename) {
-        tempFile.createFile(directory, filename);
-    }
-
-    @Override
-    public void writeSourceCode(String sourceCode) {
-        String directory = getDirectory();
-        writeFile.writeSourceCode(directory, fileName, sourceCode);
-    }
-
     @Override
     public int compileCode(Solution solution) {
-        
+
+        String[] command = new String[4];
+        String[] javaCompiler = new String[2];
+
         String directory = getDirectory();
         
         @SuppressWarnings("unused")
         String compilationResult = "";
         int exitValue = 1;
         
-        String sourceCode = getSourceCode(solution);
-        language = getLanguage(solution);
+        String sourceCode = solution.getSolutionSourceCode();
+        language = solution.getLanguage();
         
         if (language.equals("c")) {
 //            prepare("c",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
             prepareExecutableFile.setPrepareExecutable(new CPrepareExecutable());
             command = prepareExecutableFile.prepare(sourceCode, directory);
+            executableFile = command[3];
         } else if (language.equals("cpp")) {
 //            prepare("cpp",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
             prepareExecutableFile.setPrepareExecutable(new CPPPrepareExecutable());
             command = prepareExecutableFile.prepare(sourceCode, directory);
+            executableFile = command[3];
         } else if (language.equals("java")) {
 //            prepare("java",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
@@ -133,8 +121,8 @@ public class CodeCompileImpl implements CodeCompile {
             Process process = processBuilder.start();
             
             InputStream inputStream = process.getInputStream();
-            InputStreamReader inputStramReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStramReader);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             
             boolean timeout = true;
             try {
@@ -188,12 +176,6 @@ public class CodeCompileImpl implements CodeCompile {
     }
 
     @Override
-    public String getSourceCode(Solution solution) {
-        String solutionSourceCode = solution.getSolutionSourceCode();
-        return solutionSourceCode;
-    }
-
-    @Override
     public String getDirectory() {
         String directory = tempFile.getDirectory();
         return directory;
@@ -202,37 +184,5 @@ public class CodeCompileImpl implements CodeCompile {
     public String getExecutableFile() {
         return executableFile;
     }
-
-    @Override
-    public void prepare(String languageName, String sourceCode, String directory) {
-        /*if (languageName.equals("c")) {
-            fileName = "filename." + languageName;
-            createFile(directory, fileName);
-            writeSourceCode(sourceCode);
-            executableFile = directory + "filename"; 
-            sourceCodeFile = directory + fileName;
-            command[0] = "gcc";
-            command[1] = sourceCodeFile;
-            command[2] = "-o";
-            command[3] = executableFile;
-        } else if (languageName.equals("cpp")) {
-            fileName = "filename." + languageName;
-            createFile(directory, fileName);
-            writeSourceCode(sourceCode);
-            executableFile = directory + "filename"; 
-            sourceCodeFile = directory + fileName;
-            command[0] = "g++";
-            command[1] = sourceCodeFile;
-            command[2] = "-o";
-            command[3] = executableFile;
-        } else if (languageName.equals("java")) {
-            fileName = "Main." + languageName;
-            createFile(directory, fileName);
-            writeSourceCode(sourceCode);
-            executableFile = "Main"; 
-            sourceCodeFile = directory + fileName;
-        }*/
-    }
-
 }
 
