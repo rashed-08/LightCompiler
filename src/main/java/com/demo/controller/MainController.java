@@ -35,7 +35,7 @@ public class MainController {
 
     @PostMapping("/judge")
     public ResponseEntity<Integer> judge(@RequestBody Solution solution) {
-        int response = controllerService.judge(solution);
+        //int response = controllerService.judge(solution);
        // System.out.println("The judge value: " + response);
         return null;
     }

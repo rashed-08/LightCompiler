@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.demo.service.prepare.CPPPrepareExecutable;
 import com.demo.service.prepare.CPrepareExecutable;
+import com.demo.service.prepare.JavaPrepareExecutable;
 import com.demo.service.prepare.PrepareExecutableFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,21 +49,18 @@ public class CodeCompileImpl implements CodeCompile {
         language = solution.getLanguage();
         
         if (language.equals("c")) {
-//            prepare("c",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
             prepareExecutableFile.setPrepareExecutable(new CPrepareExecutable());
             command = prepareExecutableFile.prepare(sourceCode, directory);
             executableFile = command[3];
         } else if (language.equals("cpp")) {
-//            prepare("cpp",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
             prepareExecutableFile.setPrepareExecutable(new CPPPrepareExecutable());
             command = prepareExecutableFile.prepare(sourceCode, directory);
             executableFile = command[3];
         } else if (language.equals("java")) {
-//            prepare("java",sourceCode,directory);
             prepareExecutableFile = new PrepareExecutableFile();
-            prepareExecutableFile.setPrepareExecutable(new CPPPrepareExecutable());
+            prepareExecutableFile.setPrepareExecutable(new JavaPrepareExecutable());
             command = prepareExecutableFile.prepare(sourceCode, directory);
             javaCompiler[0] = "javac";
             javaCompiler[1] = command[1];

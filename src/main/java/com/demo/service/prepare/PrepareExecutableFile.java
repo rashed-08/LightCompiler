@@ -6,8 +6,6 @@ import com.demo.service.impl.WriteToFileImpl;
 
 public class PrepareExecutableFile {
     private PrepareExecutable prepareExecutable;
-    private TempFileImpl tempFile;
-    private WriteToFileImpl writeFile;
 
     public void setPrepareExecutable(PrepareExecutable prepareExecutable) {
         this.prepareExecutable = prepareExecutable;

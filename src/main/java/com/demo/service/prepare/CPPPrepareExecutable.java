@@ -7,9 +7,6 @@ import com.demo.service.impl.WriteToFileImpl;
 public class CPPPrepareExecutable implements PrepareExecutable {
     private String[] command = new String[4];
 
-    private TempFileImpl tempFile;
-    private WriteToFileImpl writeFile;
-
     public CPPPrepareExecutable() {
     }
     @Override
@@ -28,6 +25,7 @@ public class CPPPrepareExecutable implements PrepareExecutable {
             command[1] = sourceCodeFile;
             command[2] = "-o";
             command[3] = executableFile;
+            return command;
         }
         return null;
     }

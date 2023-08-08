@@ -19,8 +19,7 @@ public class ControllerServiceImpl implements ControllerService {
 
     @Override
     public int compile(Solution solution) {
-        int successfullyExit = codeCompile.compileCode(solution);
-        return successfullyExit;
+        return codeCompile.compileCode(solution);
     }
 
     @Override 

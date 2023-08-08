@@ -6,8 +6,6 @@ import com.demo.service.impl.WriteToFileImpl;
 
 public class JavaPrepareExecutable implements PrepareExecutable {
     private String[] command = new String[4];
-    public JavaPrepareExecutable() {
-    }
 
     @Override
     public String[] prepare(String sourceCode, String directory) {
