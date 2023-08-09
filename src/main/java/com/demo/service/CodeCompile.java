@@ -9,7 +9,6 @@ public interface CodeCompile {
     String getDirectory();
     int compileCode(final Solution solution);
     String getSTDIN(Solution solution);
-    String getLanguage(Solution solution);
     ArrayList<String> executeCode();
-    void deleteFile(String errorTag);
+    void deleteFiles(String errorTag);
 }

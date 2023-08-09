@@ -88,9 +88,10 @@ public class CodeCompileImpl implements CodeCompile {
             
             if (exitValue == 1) {
                 errorTag += "error";
-                deleteFile(errorTag);
+                deleteFiles(errorTag);
             }
-
+            String removeSourceFile = command[1];
+            tempFile.deleteFile(removeSourceFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,14 +151,19 @@ public class CodeCompileImpl implements CodeCompile {
         } catch (IOException e) {
             e.printStackTrace();
         } 
-        deleteFile(errorTag);
+        if (language.equalsIgnoreCase("java")) {
+            String removeExecutableFile = executableFile.intern() + ".class";
+            tempFile.deleteFile(removeExecutableFile);
+        } else {
+            tempFile.deleteFile(executableFile);
+        }
         return outputList;
     }
 
     @Override
-    public void deleteFile(String errorTag) {
+    public void deleteFiles(String errorTag) {
         String directory = getDirectory();
-        tempFile.deleteFile(directory, fileName, errorTag);
+        tempFile.deleteFiles(directory, fileName, errorTag);
     }
 
     @Override
@@ -168,19 +174,9 @@ public class CodeCompileImpl implements CodeCompile {
     }
 
     @Override
-    public String getLanguage(Solution solution) {
-        String language = solution.getLanguage();
-        return language;
-    }
-
-    @Override
     public String getDirectory() {
         String directory = tempFile.getDirectory();
         return directory;
-    }
-
-    public String getExecutableFile() {
-        return executableFile;
     }
 }
 

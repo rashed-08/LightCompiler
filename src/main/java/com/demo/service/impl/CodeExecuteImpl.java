@@ -67,7 +67,7 @@ public class CodeExecuteImpl implements CodeExecute {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        codeCompile.deleteFile("");
+        codeCompile.deleteFiles("");
         return outputList;
     }
 }

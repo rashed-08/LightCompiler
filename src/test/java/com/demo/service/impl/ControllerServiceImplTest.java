@@ -33,7 +33,7 @@ class ControllerServiceImplTest {
     @DisplayName("Compile C Successfully")
     void compileCSuccessfulTest() {
         Solution solution = prepareCSolution();
-        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() + "/tmp");
+        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString());
         assertEquals(codeCompile.compileCode(solution), 0);
         verify(tempFile).getDirectory();
     }
@@ -42,7 +42,7 @@ class ControllerServiceImplTest {
     @DisplayName("Compile C Not Successfully")
     void compileCNotSuccessfulTest() {
         Solution solution = prepareWrongCSolution();
-        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() + "/tmp");
+        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString());
         assertEquals(codeCompile.compileCode(solution), 1);
     }
 
@@ -50,7 +50,7 @@ class ControllerServiceImplTest {
     @DisplayName("Compile CPP Successfully")
     void compileCPPSuccessfulTest() {
         Solution solution = prepareCPPSolution();
-        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() + "/tmp");
+        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() );
         assertEquals(codeCompile.compileCode(solution), 0);
         verify(tempFile).getDirectory();
     }
@@ -59,7 +59,7 @@ class ControllerServiceImplTest {
     @DisplayName("Compile CPP Not Successfully")
     void compileCPPNotSuccessfulTest() {
         Solution solution = prepareWrongCPPSolution();
-        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() + "/tmp");
+        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString());
         assertEquals(codeCompile.compileCode(solution), 1);
     }
 
@@ -67,7 +67,7 @@ class ControllerServiceImplTest {
     @DisplayName("Compile Java Successfully")
     void compileJavaSuccessfulTest() {
         Solution solution = prepareJavaSolution();
-        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString() + "/tmp");
+        when(tempFile.getDirectory()).thenReturn(Paths.get(System.getProperty("user.home")).toString());
         assertEquals(codeCompile.compileCode(solution), 0);
         verify(tempFile).getDirectory();
     }
@@ -115,7 +115,7 @@ class ControllerServiceImplTest {
 
     private Solution prepareJavaSolution() {
         return new Solution(
-                "class HelloWorld {\r\n    public static void main(String[] args) {\r\nSystem.out.println(\"Hello, World!\"); \r\n    }\r\n}",
+                "class Main {\r\n    public static void main(String[] args) {\r\nSystem.out.println(\"Hello, World!\"); \r\n    }\r\n}",
                 "",
                 "java"
         );
