@@ -17,9 +17,11 @@ public class TempFileImpl implements TempFile {
     @Override
     public void createFile(String directory, String filename) {
         try {
-            File fileName = new File(directory + filename);
-            FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.close();
+            File fileName = new File(directory + File.separator + filename);
+            boolean fileCreatedSuccessful = fileName.createNewFile();
+            if (!fileCreatedSuccessful) {
+                System.out.println("Directory: " + directory + ", file: " + fileName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,7 +29,15 @@ public class TempFileImpl implements TempFile {
     }
 
     @Override
-    public void deleteFile(String directory, String fileName, String errorTag) {
+    public void deleteFile(String fileName) {
+        File file = new File(fileName);
+        boolean success = file.delete();
+        if (success) System.out.println("Deleted file: " + fileName);
+        else System.out.println("Could not delete");
+    }
+
+    @Override
+    public void deleteFiles(String directory, String fileName, String errorTag) {
 
         try {
             File cleanFiles = new File(directory);
@@ -48,6 +58,6 @@ public class TempFileImpl implements TempFile {
             if (directory.mkdirs()) {
             } 
         }
-        return createDirectory.toString() + "/";
+        return createDirectory.toString();
     }
 }

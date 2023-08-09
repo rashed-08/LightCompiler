@@ -1,5 +1,6 @@
 package com.demo.service.impl;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -13,10 +14,9 @@ public class WriteToFileImpl implements WriteToFile {
     @Override
     public void writeSourceCode(String directory, String fileName, String sourceCode) {
         try {
-            FileWriter fileWriter = new FileWriter(directory + fileName);
+            FileWriter fileWriter = new FileWriter(directory + File.separator + fileName);
             fileWriter.write(sourceCode);
             fileWriter.close();
-            
         } catch (IOException e) {
             e.printStackTrace();
         }

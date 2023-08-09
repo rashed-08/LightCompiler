@@ -24,12 +24,19 @@ public class MainController {
     private ControllerServiceImpl controllerService;
     
     @PostMapping("/submit")
-    public ResponseEntity<List<String>> compile(@RequestBody final Solution solution){
+    public ResponseEntity<List<String>> compile(@RequestBody Solution solution){
         List<String> outputList = new ArrayList<>();
         int successfullyExited = controllerService.compile(solution);
         if (successfullyExited == 0) {
             outputList = controllerService.execute();
         }
         return ResponseEntity.ok().body(outputList);
+    }
+
+    @PostMapping("/judge")
+    public ResponseEntity<Integer> judge(@RequestBody Solution solution) {
+        //int response = controllerService.judge(solution);
+       // System.out.println("The judge value: " + response);
+        return null;
     }
 }
