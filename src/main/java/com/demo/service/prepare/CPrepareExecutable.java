@@ -4,13 +4,8 @@ import com.demo.service.PrepareExecutable;
 import com.demo.service.impl.TempFileImpl;
 import com.demo.service.impl.WriteToFileImpl;
 import com.demo.utils.FileNameGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class CPrepareExecutable implements PrepareExecutable {
     private String[] command = new String[4];
