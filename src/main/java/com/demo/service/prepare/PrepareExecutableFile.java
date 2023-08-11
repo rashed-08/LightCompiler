@@ -1,8 +1,6 @@
 package com.demo.service.prepare;
 
 import com.demo.service.PrepareExecutable;
-import com.demo.service.impl.TempFileImpl;
-import com.demo.service.impl.WriteToFileImpl;
 
 public class PrepareExecutableFile {
     private PrepareExecutable prepareExecutable;

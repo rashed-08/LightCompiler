@@ -27,7 +27,7 @@ public class JavaPrepareExecutable implements PrepareExecutable {
             String executableFile = className;
             String sourceCodeFile = directory + File.separator + fileName;
             command[1] = sourceCodeFile;
-            command[3] = directory + File.separator + executableFile;
+            command[3] = executableFile;
             return command;
         }
         return null;
