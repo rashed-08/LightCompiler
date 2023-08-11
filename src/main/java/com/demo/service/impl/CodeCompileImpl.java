@@ -1,10 +1,6 @@
 package com.demo.service.impl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -64,6 +60,7 @@ public class CodeCompileImpl implements CodeCompile {
             command = prepareExecutableFile.prepare(sourceCode, directory);
             javaCompiler[0] = "javac";
             javaCompiler[1] = command[1];
+            executableFile = command[3];
         }
         
         try {
@@ -106,10 +103,10 @@ public class CodeCompileImpl implements CodeCompile {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (language.equals("java")) {
             String[] command = new String[4];
-            command[0] = "java";
-            command[1] = "-cp";
-            command[2] = getDirectory();
-            command[3] = executableFile;
+             command[0] = "java";
+             command[1] = "-cp";
+             command[2] = getDirectory();
+             command[3] = executableFile;
             processBuilder.command(command);
         } else {
             String[] command = { executableFile };
@@ -122,7 +119,7 @@ public class CodeCompileImpl implements CodeCompile {
             InputStream inputStream = process.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            
+
             boolean timeout = true;
             try {
                 OutputStream stdin = process.getOutputStream();
@@ -151,12 +148,14 @@ public class CodeCompileImpl implements CodeCompile {
         } catch (IOException e) {
             e.printStackTrace();
         } 
+
         if (language.equalsIgnoreCase("java")) {
-            String removeExecutableFile = executableFile.intern() + ".class";
+            String removeExecutableFile = getDirectory() + File.separator + executableFile + ".class";
             tempFile.deleteFile(removeExecutableFile);
         } else {
             tempFile.deleteFile(executableFile);
         }
+        
         return outputList;
     }
 
