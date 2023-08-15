@@ -21,8 +21,10 @@ Now supported language: **C/C++**, **Java**
 
 # How to run 
   - Goto **Postman**
-  - Hit `https://light-compiler-backend.herokuapp.com/api/v1/submit` or `http://localhost:8080/api/v1/submit` and request type **POST**
+  - Hit `http://localhost:8080/api/v1/submit` and request type **POST**
   - Write any program in supported language.
-  - Convert json format. [Here](https://onlinetexttools.com/json-stringify-text)
+  - Convert json format. [Here](https://jsonformatter.org/json-stringify-online)
   - Should provide these field - `solutionSourceCode` `stdin` `language`
   - **Don't forget to add headers as json format**
+
+If you found any issue, please report in **Issue** section.
